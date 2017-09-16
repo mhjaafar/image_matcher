@@ -1,0 +1,6 @@
+*parameters
+ui_*.h
+moc_*
+*depends
+desktop.ini
+qrc*cpp

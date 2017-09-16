@@ -1,0 +1,129 @@
+Project: Plugin: Image Matcher
+
+#################################
+See Chapter 9 in the Cookbook.
+#################################
+
+A) Motivations:
+______________
+
+1) Manga:
+In every chapter of manga archives, there are always pages that do not really belong to the manga.
+These pages are added by the translators - either by the translators themselves,
+or some fan art pictures (usually colored).
+
+These pages are deemed as redundant and unwanted.
+Removing these pages can save a significant size of space.
+
+These pages usually repeat themselves: therefore there are patterns,
+i.e., templates that can be matched.
+
+Advantageously, these redundant pages are usually located either
+in the first or the last few pages of every chapter.
+This will enable search within ranges that can be set
+and therefore operation time should be short.
+
+2) Facial recognition:
+______________________
+
+Interactive facial recognition application:
+- Give a target: run matching on sample images provided in a queue.
+
+_____________
+B) Objective:
+_____________
+
+1) Facial recognition
+
+2) Manga Fanart Purger: search and delete all excessive/redundant pages in manga archives.
+
+_______________
+C) Methodology:
+_______________
+
+Manga Fan Purger:
+______
+
+1) Template files:
+	i) pick single or multiple.
+		// Refer the source file: "internal_commands.cpp" MCmdFileOpenCv::execute()
+		=> dialog.setFileMode(QFileDialog::ExistingFile or ExistingFiles)
+	ii) queue the template(s) in a list: as cloned images
+
+2) Select chapters:
+	i) queue the directories in a list
+		=> dialog.setFileMode(QFileDialog::Directory)
+
+3) Select ranges:
+	n := no. of pages per chapter
+	i) begin: [0, 3]
+	ii) end: [n-3, n-1]
+
+4) Run search
+
+5) Display results:
+	i) match template:
+	ii) storage size that can be saved by deleting these pages.
+
+6) Make decision:
+	i) delete upon a prompt message or 
+	   delete automatically by default.
+
+	ii) clear the list of templates/cloned images.
+
+__________________
+D) Implementation:
+__________________
+
+1) Parameters to be used:
+
+a) Path to the samples => queue in a QList.
+b) Path to the targets => queue in a QList
+
+c) Facial recognition:
+
+A file that contains the information/data about each target image:
+	- name
+	- gender
+
+[Optional] Use SQL/YAML/XML to implement a task list for this.
+
+d) Fanart purger:
+A log file:
+- file name format: FanartPurger_YYYY-MM-DD.log
+- lists an uncompleted purging task:
+	=> last directories, last sample images, etc.
+	=> images to be purged.
+
+2) ImageMatcherWidget: Milan Window is to add our own widget:
+	-Call the method MainWindow::addViewToWorkspace(QWidget).
+	
+	=> pWs->mainWndwIF()->addViewToWorkspace(<your widget>)
+	
+	- requirements for this widget:
+		i) the widget is resizeable
+		ii) the images inside are also resizable...?
+		
+====================================================
+2017-03-08 (Wed.)
+
+Next to do:
+
+1) Implement the parsing of an XML file:
+	-The XML file lists the sample images and the target folder paths.
+
+====================================================
+2017-03-21 (Tue.)
+
+Next to do:
+1) Discarding the usage of XML file, opting for INI-format instead.
+- Use QSettings.
+
+====================================================
+2017-03-23 (Thur)
+
+1) Using MIniFile instead of QSettings and XML formats.
+Tested in the dummy command.
+
+Next to do:
+1) Draft a model for the queueing the images for facial recognition.

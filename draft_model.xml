@@ -1,0 +1,35 @@
+<Tasks>
+    <MatchTask name="FanArtPurger">
+        <Task date="YYYY-MM-DD">
+            <SampleList>
+                <!-- Path to single image -->
+                <SamplePath path=""/>
+                <SamplePath path=""/>
+            </SampleList>
+            <TargetList>
+                <!-- Path to the folder -->
+                <TargetPath path="" />
+                <TargetPath path="" />
+            </TargetList>
+            <MatchingParameters>
+            </MatchingParameters>
+        </Task>
+    </MatchTask>
+
+    <MatchTask name="FacialRecognition">
+        <Task date="YYYY-MM-DD">
+            <SampleList>
+                <!-- Path to single image -->
+                <SamplePath path=""/>
+                <SamplePath path=""/>
+            </SampleList>
+            <TargetList>
+                <!-- Path to the folder -->
+                <TargetPath path="" />
+                <TargetPath path="" />
+            </TargetList>
+            <MatchingParameters>
+            </MatchingParameters>
+        </Task>
+    </MatchTask>
+</Tasks>
