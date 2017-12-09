@@ -79,102 +79,102 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 ImageMatcherToolBoxWidget* gbl_pImageMatcherToolBoxWidget = 0;
 
 MCmdImageMatcherShowToolBox::MCmdImageMatcherShowToolBox(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
-	m_menu.push_back(tr("&Plugins"));
-	m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
-	m_menu.push_back(tr("Image Matcher Toolbox"));
+    m_menu.push_back(tr("&Plugins"));
+    m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
+    m_menu.push_back(tr("Image Matcher Toolbox"));
 
-	m_shortCut = ImgMatcher::CmdToolBox;
-	m_hasIcon = true;
-	m_icon = QIcon(":/resources/humanTransmutationCircle.ico");
-	m_toolBar = ImgMatcher::CmdToolBox;
-	m_needsActiveImage = false;
-	m_autoCreateNewDoc = false;
+    m_shortCut = ImgMatcher::CmdToolBox;
+    m_hasIcon = true;
+    m_icon = QIcon(":/resources/humanTransmutationCircle.ico");
+    m_toolBar = ImgMatcher::CmdToolBox;
+    m_needsActiveImage = false;
+    m_autoCreateNewDoc = false;
 }
 
 bool MCmdImageMatcherShowToolBox::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
-	if (gbl_pImageMatcherToolBoxWidget == 0){
-		gbl_pImageMatcherToolBoxWidget = new ImageMatcherToolBoxWidget(pWs);
-	}
+    if (gbl_pImageMatcherToolBoxWidget == 0){
+	    gbl_pImageMatcherToolBoxWidget = new ImageMatcherToolBoxWidget(pWs);
+    }
 
-	pWs->toolBoxIF()->addToolBoxWidget(gbl_pImageMatcherToolBoxWidget);
+    pWs->toolBoxIF()->addToolBoxWidget(gbl_pImageMatcherToolBoxWidget);
 
-	return true;
+    return true;
 }
 
 MCmdImageMatcherRestorePreviousImage::MCmdImageMatcherRestorePreviousImage(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
-	m_menu.push_back(tr("&Plugins"));
-	m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
-	m_menu.push_back(tr("Restore previous image"));
+    m_menu.push_back(tr("&Plugins"));
+    m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
+    m_menu.push_back(tr("Restore previous image"));
 
-	m_shortCut = ImgMatcher::CmdDummy;
-	m_needsActiveImage = false;
-	m_autoCreateNewDoc = false;
+    m_shortCut = ImgMatcher::CmdDummy;
+    m_needsActiveImage = false;
+    m_autoCreateNewDoc = false;
 }
 
 bool MCmdImageMatcherRestorePreviousImage::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
 	
-	MIniFileIF* settings = pWs->settingsIF();
-	QString filePath;
+    MIniFileIF* settings = pWs->settingsIF();
+    QString filePath;
 
-	settings->getItem("Paths/lastImgPathName", filePath, QDir::homePath());
+    settings->getItem("Paths/lastImgPathName", filePath, QDir::homePath());
 
-	// Test if file does exist:
-	QFileInfo file(filePath);
+    // Test if file does exist:
+    QFileInfo file(filePath);
 
-	if (file.exists() && file.isFile()){
+    if (file.exists() && file.isFile()){
 
-		QString fileSuffix = file.suffix();
+        QString fileSuffix = file.suffix();
 
-		if (fileSuffix == "ply" || fileSuffix == "pcb" || fileSuffix == "pct"
-			|| fileSuffix == "PLY"
-			|| fileSuffix == "PCB"
-			|| fileSuffix == "stl"
-			|| fileSuffix == "STL"){
-			pWs->logWndIF()->addMsg("The last opened image file is a point cloud!");
-			return false;
-		}
-		else{
-			// Read-in the last image file
-			cv::Mat newImage = cv::imread(filePath.toStdString());
+        if (fileSuffix == "ply" || fileSuffix == "pcb" || fileSuffix == "pct"
+            || fileSuffix == "PLY"
+            || fileSuffix == "PCB"
+            || fileSuffix == "stl"
+            || fileSuffix == "STL"){
+            pWs->logWndIF()->addMsg("The last opened image file is a point cloud!");
+            return false;
+        }
+        else{
+            // Read-in the last image file
+            cv::Mat newImage = cv::imread(filePath.toStdString());
 
-			if (newImage.rows == 0 || newImage.cols == 0){
-				pWs->logWndIF()->addMsg("Empty file!");
-				return false;
-			}
+            if (newImage.rows == 0 || newImage.cols == 0){
+                pWs->logWndIF()->addMsg("Empty file!");
+                return false;
+            }
 
-			MDocument* pDoc = pWs->docMgrIF()->activeDoc();
-			MImageDocCvIF* pNewDoc = NULL;
+            MDocument* pDoc = pWs->docMgrIF()->activeDoc();
+            MImageDocCvIF* pNewDoc = NULL;
 
-			if (pDoc == NULL){
-				pNewDoc = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
-			}
-			else if (pDoc->className() == MImageDocCvIF::getClassName()){
-				pNewDoc = (MImageDocCvIF*)pDoc;
-			}
-			else{
-				pNewDoc = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
-			}
+            if (pDoc == NULL){
+                pNewDoc = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
+            }
+            else if (pDoc->className() == MImageDocCvIF::getClassName()){
+                pNewDoc = (MImageDocCvIF*)pDoc;
+            }
+            else{
+                pNewDoc = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
+            }
 
-			pNewDoc->docName(filePath);
-			pNewDoc->filePath(filePath);
+            pNewDoc->docName(filePath);
+            pNewDoc->filePath(filePath);
 
-			pNewDoc->replaceActiveImage(newImage, true);
-		} // END: else
-	} // END: if (file.exists() && file.isFile())
+            pNewDoc->replaceActiveImage(newImage, true);
+        } // END: else
+    } // END: if (file.exists() && file.isFile())
 
-	return true;
+    return true;
 }// END: bool MCmdImageMatcherRestorePreviousImage::execute()
 
 MCmdImageMatcherDummy::MCmdImageMatcherDummy(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
-	m_menu.push_back(tr("&Plugins"));
-	m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
-	m_menu.push_back(tr("Image Matcher Dummy"));
+    m_menu.push_back(tr("&Plugins"));
+    m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
+    m_menu.push_back(tr("Image Matcher Dummy"));
 
-	m_shortCut = ImgMatcher::CmdDummy;
-	m_hasIcon = true;
-	m_icon = QIcon(":/resources/humanTransmutationCircle.ico");
-	m_needsActiveImage = false;
-	m_autoCreateNewDoc = false;
+    m_shortCut = ImgMatcher::CmdDummy;
+    m_hasIcon = true;
+    m_icon = QIcon(":/resources/humanTransmutationCircle.ico");
+    m_needsActiveImage = false;
+    m_autoCreateNewDoc = false;
 }
 
 bool MCmdImageMatcherDummy::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
@@ -232,14 +232,14 @@ bool MCmdImageMatcherDummy::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap)
 } // END: bool MCmdImageMatcherDummy::execute()
 
 MCmdImageMatcherInitDocViews::MCmdImageMatcherInitDocViews(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
-	m_menu.push_back(tr("&Plugins"));
-	m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
-	m_menu.push_back(tr("Initialize views"));
+    m_menu.push_back(tr("&Plugins"));
+    m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
+    m_menu.push_back(tr("Initialize views"));
 
-	m_shortCut = ImgMatcher::CmdInitDocViews;
-	m_hasIcon = false;
-	m_needsActiveImage = false;
-	m_autoCreateNewDoc = false;
+    m_shortCut = ImgMatcher::CmdInitDocViews;
+    m_hasIcon = false;
+    m_needsActiveImage = false;
+    m_autoCreateNewDoc = false;
 }
 
 bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
@@ -307,15 +307,15 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
 }// END: bool MCmdImageMatcherInitDocViews::execute()
 
 MCommand* MImageMatcherCommands::getCommand(MCommandMgrIF* pCmdMgr, QString& commandName){
-	if (commandName == ImgMatcher::CmdToolBox)
-		return new MCmdImageMatcherShowToolBox(pCmdMgr);
-	if (commandName == ImgMatcher::CmdDummy)
-		return new MCmdImageMatcherDummy(pCmdMgr);
-	if (commandName == ImgMatcher::CmdRestorePreviousImage)
-		return new MCmdImageMatcherRestorePreviousImage(pCmdMgr);
-	if (commandName == ImgMatcher::CmdInitDocViews)
-		return new MCmdImageMatcherInitDocViews(pCmdMgr);
-	return 0;
+    if (commandName == ImgMatcher::CmdToolBox)
+        return new MCmdImageMatcherShowToolBox(pCmdMgr);
+    if (commandName == ImgMatcher::CmdDummy)
+        return new MCmdImageMatcherDummy(pCmdMgr);
+    if (commandName == ImgMatcher::CmdRestorePreviousImage)
+        return new MCmdImageMatcherRestorePreviousImage(pCmdMgr);
+    if (commandName == ImgMatcher::CmdInitDocViews)
+        return new MCmdImageMatcherInitDocViews(pCmdMgr);
+    return 0;
 }
 
 /*
@@ -323,15 +323,15 @@ MCommand* MImageMatcherCommands::getCommand(MCommandMgrIF* pCmdMgr, QString& com
 	The order of these commands determines their order from the pull-down menu bar.
 */
 QStringList MImageMatcherCommands::commands() const{
-	return QStringList()
-		<< ImgMatcher::CmdToolBox
-		<< ImgMatcher::CmdDummy
-		<< ImgMatcher::CmdRestorePreviousImage
-		<< ImgMatcher::CmdInitDocViews;
+    return QStringList()
+        << ImgMatcher::CmdToolBox
+        << ImgMatcher::CmdDummy
+        << ImgMatcher::CmdRestorePreviousImage
+        << ImgMatcher::CmdInitDocViews;
 }
 
 bool MImageMatcherCommands::onModuleStartup(MWorkspaceIF& ws){
-	return true;
+    return true;
 }
 
 void MImageMatcherCommands::onModuleShutdown(MWorkspaceIF& ws){
