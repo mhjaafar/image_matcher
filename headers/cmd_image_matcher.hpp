@@ -34,7 +34,7 @@ Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Prog
 schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA.
 */
 #ifndef CMD_IMAGE_MATCHER_HPP
-#define CMD_OPENCV_TUTORIAL_H
+#define CMD_IMAGE_MATCHER_HPP
 
 #include <QObject>
 #include <libmilan/milan.h>
