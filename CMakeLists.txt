@@ -12,7 +12,7 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_SOURCE_DIR}/libmilan/utils
 	${CMAKE_SOURCE_DIR}/libmilan/logging
 	${CMAKE_SOURCE_DIR}/libmilan/imgproc
-	${CMAKE_SOURCE_DIR}/libmilan/io
+	${CMAKE_SOURCE_DIR}/libmilan/cv
 	${Milan_SOURCE_DIR}/milan/main
 	${Milan_SOURCE_DIR}/milan/main/milan_core
 	${Milan_SOURCE_DIR}/milan/plugins
@@ -105,6 +105,8 @@ IF ( Qt5Widgets_FOUND AND Qt5Core_FOUND AND Qt5Gui_FOUND AND Qt5Xml_FOUND )
 		milan_Core
 		libmilan_logging
 		libmilan_imgproc
+        libmilan_cv
+        libmilan_utils
 		${Qt5Widgets_LIBRARIES}
 		${Qt5Core_LIBRARIES}
 		${Qt5Gui_LIBRARIES}
