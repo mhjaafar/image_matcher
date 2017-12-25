@@ -48,39 +48,39 @@ using namespace std;
 #define MilanCommandInterface_iid "hda.fbmn.obv.milan.commandInterface_v02"
 
 class MImageMatcherCommands : public QObject, public MCommandInterface{
-	Q_OBJECT
-	Q_INTERFACES(MCommandInterface)
-	Q_PLUGIN_METADATA(IID MilanCommandInterface_iid)
+    Q_OBJECT
+    Q_INTERFACES(MCommandInterface)
+    Q_PLUGIN_METADATA(IID MilanCommandInterface_iid)
 
-	public:
-		MCommand* getCommand(MCommandMgrIF* pCmdMgr, QString& commandName);
-		QStringList commands() const;
-		bool onModuleStartup(MWorkspaceIF& ws);
-		void onModuleShutdown(MWorkspaceIF& ws);
+    public:
+        MCommand* getCommand(MCommandMgrIF* pCmdMgr, QString& commandName);
+        QStringList commands() const;
+        bool onModuleStartup(MWorkspaceIF& ws);
+        void onModuleShutdown(MWorkspaceIF& ws);
 };
 
 class MCmdImageMatcherShowToolBox : public MImgProcCmdCv {
 public:
-	MCmdImageMatcherShowToolBox(MCommandMgrIF* pCmdMgr);
-	virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
+    MCmdImageMatcherShowToolBox(MCommandMgrIF* pCmdMgr);
+    virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
 };
 
 class MCmdImageMatcherDummy : public MImgProcCmdCv {
-	public:
-		MCmdImageMatcherDummy(MCommandMgrIF* pCmdMgr);
-		virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pPars);
+    public:
+        MCmdImageMatcherDummy(MCommandMgrIF* pCmdMgr);
+        virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pPars);
 };
 
 class MCmdImageMatcherRestorePreviousImage : public MImgProcCmdCv {
-	public:
-		MCmdImageMatcherRestorePreviousImage(MCommandMgrIF* pCmdMgr);
-		virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
+    public:
+        MCmdImageMatcherRestorePreviousImage(MCommandMgrIF* pCmdMgr);
+        virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
 };
 
 class MCmdImageMatcherInitDocViews : public MImgProcCmdCv {
-	public:
-		MCmdImageMatcherInitDocViews(MCommandMgrIF* pCmgMgr);
-		virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
+    public:
+        MCmdImageMatcherInitDocViews(MCommandMgrIF* pCmgMgr);
+        virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
 };
 
 #endif

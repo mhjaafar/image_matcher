@@ -48,54 +48,54 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 using namespace ImgMatcher;
 
 ImageMatcherToolBoxWidget::ImageMatcherToolBoxWidget(MWorkspaceIF* pWs) : MToolBoxWidget(*pWs){
-	setupUi(this);
+    setupUi(this);
 
-	iniFileDataExchange(false);
+    iniFileDataExchange(false);
 
-	connect(btnDummy, SIGNAL(clicked()), this, SLOT(onBtnDummy()));
-	connect(btnRestoreImg, SIGNAL(clicked()), this, SLOT(onBtnRestoreImage()));
-	connect(btnInitViewers, SIGNAL(clicked()), this, SLOT(onBtnInitViewers()));
+    connect(btnDummy, SIGNAL(clicked()), this, SLOT(onBtnDummy()));
+    connect(btnRestoreImg, SIGNAL(clicked()), this, SLOT(onBtnRestoreImage()));
+    connect(btnInitViewers, SIGNAL(clicked()), this, SLOT(onBtnInitViewers()));
 }// END: ImageMatcherWidget::ImageMatcherWidget(MWorkspaceIF* pWs)
 
 ImageMatcherToolBoxWidget::~ImageMatcherToolBoxWidget(void){
-	// Empty destructors
+    // Empty destructors
 }
 
 void ImageMatcherToolBoxWidget::onSettingsChanged(){
-	iniFileDataExchange(true);
+    iniFileDataExchange(true);
 }
 
 void ImageMatcherToolBoxWidget::onBtnDummy(){
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-	m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdDummy);
-	QApplication::restoreOverrideCursor();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdDummy);
+    QApplication::restoreOverrideCursor();
 }
 
 void ImageMatcherToolBoxWidget::onBtnRestoreImage(){
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-	m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdRestorePreviousImage);
-	QApplication::restoreOverrideCursor();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdRestorePreviousImage);
+    QApplication::restoreOverrideCursor();
 }
 
 void ImageMatcherToolBoxWidget::onBtnInitViewers(){
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-	m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdInitDocViews);
-	QApplication::restoreOverrideCursor();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdInitDocViews);
+    QApplication::restoreOverrideCursor();
 }
 
 void ImageMatcherToolBoxWidget::iniFileDataExchange(bool bDirection){
-	MIniFileIF* pif = m_ws.settingsIF();
+    MIniFileIF* pif = m_ws.settingsIF();
 
-	if (bDirection){
-		//pif->setItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, tbManipulation->currentIndex());
-		pif->flush();
-	} // END: if (bDirection)
-	else{
-		//int m;
-		//double d;
-		//bool b;
+    if (bDirection){
+        //pif->setItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, tbManipulation->currentIndex());
+        pif->flush();
+    } // END: if (bDirection)
+    else{
+        //int m;
+        //double d;
+        //bool b;
 
-		//pif->getItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, m, 0);
-		//tbManipulation->setCurrentIndex(m);
-	} // END: else
+        //pif->getItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, m, 0);
+        //tbManipulation->setCurrentIndex(m);
+    } // END: else
 } // END: void ImageMatcherToolBoxWidget::iniFileDataExchange(bool bDirection)

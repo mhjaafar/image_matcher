@@ -40,34 +40,34 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 #include <QString>
 
 namespace ImgMatcher{
-	const std::string PluginName = "Image_Matcher";
-	const std::string PluginNameInCommand = "Image Matcher";
-	const std::string QToolBoxes = "QToolBoxes";
-	const std::string ConfidenceLevel = "ConfidenceLevel";
-	const std::string RatioNN1to2 = "RatioNN1to2";
-	const std::string RefineFMatrixEnabled = "RefineFMatrix";
-	const std::string MinDistanceToEpipolar = "MinDistToEpipolar";
-	const std::string MatchesDrawOption = "MatchesDrawOption";
-	const std::string ResizeInputImageEnabled = "ResizeInputImg";
-	const std::string ResizeInputImagePercentage = "ResizeInputImgPercentage";
-	const std::string PathToImgSample = "PathImgSample";
-	const std::string PathToImgTarget = "PathImgTarget";
-	const std::string SurfFeatureDetector = "SurfFeatureDetector";
-	const std::string SurfFeatureOctaves = "Octaves";
+    const std::string PluginName = "Image_Matcher";
+    const std::string PluginNameInCommand = "Image Matcher";
+    const std::string QToolBoxes = "QToolBoxes";
+    const std::string ConfidenceLevel = "ConfidenceLevel";
+    const std::string RatioNN1to2 = "RatioNN1to2";
+    const std::string RefineFMatrixEnabled = "RefineFMatrix";
+    const std::string MinDistanceToEpipolar = "MinDistToEpipolar";
+    const std::string MatchesDrawOption = "MatchesDrawOption";
+    const std::string ResizeInputImageEnabled = "ResizeInputImg";
+    const std::string ResizeInputImagePercentage = "ResizeInputImgPercentage";
+    const std::string PathToImgSample = "PathImgSample";
+    const std::string PathToImgTarget = "PathImgTarget";
+    const std::string SurfFeatureDetector = "SurfFeatureDetector";
+    const std::string SurfFeatureOctaves = "Octaves";
 
-	const QString CmdToolBox("ImageMatcherToolBox");
-	const QString CmdDummy("ImageMatcherDummy");
-	const QString CmdRestorePreviousImage("ImageMatcherRestorePreviousImage");
-	const QString CmdInitDocViews("ImageMatcherInitDocViews");
+    const QString CmdToolBox("ImageMatcherToolBox");
+    const QString CmdDummy("ImageMatcherDummy");
+    const QString CmdRestorePreviousImage("ImageMatcherRestorePreviousImage");
+    const QString CmdInitDocViews("ImageMatcherInitDocViews");
 
-	const QString DocNameImgSampleCurrent("Current Sample Image");
-	const QString DocNameImgSampleNext("Next Sample Image");
-	const QString DocNameImgTargetCurrent("Current Target Image");
-	const QString DocNameImgTargetNext("Next Target Image");
+    const QString DocNameImgSampleCurrent("Current Sample Image");
+    const QString DocNameImgSampleNext("Next Sample Image");
+    const QString DocNameImgTargetCurrent("Current Target Image");
+    const QString DocNameImgTargetNext("Next Target Image");
 
-	const QString IniFileName("plugin_ImageMatcher.ini");
-	const QString XmlFileName("plugin_ImageMatcher.xml");
-	const QString XmlFileOutputName("plugin_ImageMatcher_Output.xml");
+    const QString IniFileName("plugin_ImageMatcher.ini");
+    const QString XmlFileName("plugin_ImageMatcher.xml");
+    const QString XmlFileOutputName("plugin_ImageMatcher_Output.xml");
 }// END: namespace ImgMatcher
 
 #endif

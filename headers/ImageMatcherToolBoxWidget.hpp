@@ -49,30 +49,30 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 #include <workspace.h>
 
 namespace Ui{
-	class ImageMatcherToolBoxWidget;
+    class ImageMatcherToolBoxWidget;
 }
 
 class ImageMatcherToolBoxWidget : public MToolBoxWidget, public Ui::ImageMatcherToolBoxWidget{
-	// Macro
-	Q_OBJECT
-public:
-	ImageMatcherToolBoxWidget(MWorkspaceIF* pWs);
-	MWorkspaceIF* m_pWs;
-	virtual ~ImageMatcherToolBoxWidget(void);
+    // Macro
+    Q_OBJECT
+    public:
+        ImageMatcherToolBoxWidget(MWorkspaceIF* pWs);
+        MWorkspaceIF* m_pWs;
+        virtual ~ImageMatcherToolBoxWidget(void);
 
-public slots:
-	virtual QString title() { return tr("Image Matcher Toolbox"); }
-	virtual QIcon icon() { return QIcon(":/resources/humanTransmutationCircle.ico"); }
+    public slots:
+        virtual QString title() { return tr("Image Matcher Toolbox"); }
+        virtual QIcon icon() { return QIcon(":/resources/humanTransmutationCircle.ico"); }
 
-	// Reaction to buttons:
-	void onBtnRestoreImage();
-	void onBtnDummy();
-	void onBtnInitViewers();
+        // Reaction to buttons:
+        void onBtnRestoreImage();
+        void onBtnDummy();
+        void onBtnInitViewers();
 
-	void onSettingsChanged();
+        void onSettingsChanged();
 
-private:
-	void iniFileDataExchange(bool bDirection);
+    private:
+        void iniFileDataExchange(bool bDirection);
 };
 
 #endif

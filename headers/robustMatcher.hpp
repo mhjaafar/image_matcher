@@ -49,98 +49,98 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 bool robustMatcher(MWorkspaceIF* pWs, cv::Mat img_1, cv::Mat img_2);
 
 class RobustMatcher{
-	private:
-		Matcher m_matcher;
-		cv::Mat m_F_mat;
-		cv::Mat m_img_1;
-		cv::Mat m_img_1_circlesAndLines;
-		cv::Mat m_img_2;
-		cv::Mat m_img_2_circlesAndLines;
-		std::vector<cv::DMatch> m_matches;
-		std::vector<cv::KeyPoint> m_keypoints_1, m_keypoints_2;
-		std::vector<cv::Point2f> m_points_1, m_points_2;
-		cv::Mat m_descriptors_1, m_descriptors_2;
-		std::vector<cv::DMatch> m_symMatches;
+    private:
+        Matcher m_matcher;
+        cv::Mat m_F_mat;
+        cv::Mat m_img_1;
+        cv::Mat m_img_1_circlesAndLines;
+        cv::Mat m_img_2;
+        cv::Mat m_img_2_circlesAndLines;
+        std::vector<cv::DMatch> m_matches;
+        std::vector<cv::KeyPoint> m_keypoints_1, m_keypoints_2;
+        std::vector<cv::Point2f> m_points_1, m_points_2;
+        cv::Mat m_descriptors_1, m_descriptors_2;
+        std::vector<cv::DMatch> m_symMatches;
 
-		// Optional: Resize the images to be smaller, to speed up processing
-		bool m_bResizeInputImages;
-		// Optional: Downscale the image to this percentage
-		int m_iResizePercentage;
-		/*
-		@brief: Convert keypoints into Point2f.
-		*/
-		void convertKeypointsAndDrawCircles();
+        // Optional: Resize the images to be smaller, to speed up processing
+        bool m_bResizeInputImages;
+        // Optional: Downscale the image to this percentage
+        int m_iResizePercentage;
+        /*
+        @brief: Convert keypoints into Point2f.
+        */
+        void convertKeypointsAndDrawCircles();
 
-		bool initImage(cv::Mat imgSrc
-			,cv::Mat& imgClone
-			,std::vector<cv::KeyPoint>& keypoints
-			,cv::Mat& descriptors
-			,int flag
-			);
+        bool initImage(cv::Mat imgSrc
+            ,cv::Mat& imgClone
+            ,std::vector<cv::KeyPoint>& keypoints
+            ,cv::Mat& descriptors
+            ,int flag
+        );
 
-	public:
-		RobustMatcher(MWorkspaceIF* pWs);
-		~RobustMatcher();
+    public:
+        RobustMatcher(MWorkspaceIF* pWs);
+        ~RobustMatcher();
 
-		bool m_bImgSampleOkay;
-		bool m_bImgTargetOkay;
+        bool m_bImgSampleOkay;
+        bool m_bImgTargetOkay;
 
-		size_t getMatchesCount(){ return m_matches.size(); }
+        size_t getMatchesCount(){ return m_matches.size(); }
 
-		Matcher getMatcher(){ return m_matcher; }
+        Matcher getMatcher(){ return m_matcher; }
 
-		/*
-			@brief: Set the first image - the sample.
-			@param imgSample: The first image or the sample image.
-		*/
-		void setImageSample(cv::Mat imgSample);
-		/*
-		@brief: Initialize the first image - the sample, running detection and extraction.
-		@param imgSample: The first image or the sample image.
-		*/
-		bool initImageSample(cv::Mat imgSample);
+        /*
+            @brief: Set the first image - the sample.
+            @param imgSample: The first image or the sample image.
+        */
+        void setImageSample(cv::Mat imgSample);
+        /*
+            @brief: Initialize the first image - the sample, running detection and extraction.
+            @param imgSample: The first image or the sample image.
+        */
+        bool initImageSample(cv::Mat imgSample);
 
-		/*
-			@brief: Set the second image - the target to be tested.
-			@param imgTarget: The image to be matched with the sample image.
-		*/
-		void setImageTarget(cv::Mat imgTarget);
-		/*
-		@brief: Initialize the second image - the target, running detection and extraction.
-		@param imgTarget: The image to be matched with the sample image.
-		*/
-		bool initImageTarget(cv::Mat imgTarget);
+        /*
+            @brief: Set the second image - the target to be tested.
+            @param imgTarget: The image to be matched with the sample image.
+        */
+        void setImageTarget(cv::Mat imgTarget);
+        /*
+            @brief: Initialize the second image - the target, running detection and extraction.
+            @param imgTarget: The image to be matched with the sample image.
+        */
+        bool initImageTarget(cv::Mat imgTarget);
 
-		/*
-			@brief Get the calculated fundamental matrix.
-			@return: m_F_mat
-		*/
-		cv::Mat getFundamentalMatrix(){
-			return m_F_mat;
-		}
+        /*
+            @brief Get the calculated fundamental matrix.
+            @return: m_F_mat
+        */
+        cv::Mat getFundamentalMatrix(){
+            return m_F_mat;
+        }
 
-		/*
-			@brief: Draw the matches
-			@param imgDst: The image containing image 1 and 2 with the matches.
-		*/
-		bool drawMatches(cv::Mat& imgDst);
+        /*
+	        @brief: Draw the matches
+	        @param imgDst: The image containing image 1 and 2 with the matches.
+        */
+        bool drawMatches(cv::Mat& imgDst);
 
-		/*
-			@brief: Prepare the matcher.
-			@param pWs: Pointer to the workspace interface.
-		*/
-		void initMatcher(MWorkspaceIF* pWs);
+        /*
+            @brief: Prepare the matcher.
+            @param pWs: Pointer to the workspace interface.
+        */
+        void initMatcher(MWorkspaceIF* pWs);
 
-		/*
-			@brief: Draw the circles on keypoints and corresponding epipolar lines.
-		*/
-		bool drawCirclesAndLines(cv::Mat& imgDst_1, cv::Mat& imgDst_2);
+        /*
+            @brief: Draw the circles on keypoints and corresponding epipolar lines.
+        */
+        bool drawCirclesAndLines(cv::Mat& imgDst_1, cv::Mat& imgDst_2);
 
-		/*
-		@brief: Match the two images
-		@return: The success of the matching
-		*/
-		bool runTwoImagesMatching();
+        /*
+            @brief: Match the two images
+            @return: The success of the matching
+        */
+        bool runTwoImagesMatching();
 };
 
 #endif
