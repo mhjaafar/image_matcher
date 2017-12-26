@@ -36,4 +36,25 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 #ifndef IMAGEMATCHERWIDGETMODEL_HPP
 #define IMAGEMATCHERWIDGETMODEL_HPP
 
+#include <milan_core/utils/inifile.h>
+#include <QStandardItemModel>
+#include <QStandardItem>
+
+class ImageMatcherWidgetModel{
+    public:
+        /**
+        * @brief Read the INI file for this plugin. Load the parameters.
+        */
+        ImageMatcherWidgetModel();
+        ~ImageMatcherWidgetModel();
+
+    //private:
+        /*
+            MIniFile* pPluginSettings = new MIniFile(pWs, QCoreApplication::applicationDirPath() + "/" + ImgMatcher::IniFileName);
+            pPluginSettings->setItem("Plugin", QString("Image Matcher"), true);
+            pPluginSettings->removeItem("Dummy");
+        */
+
+};
+
 #endif

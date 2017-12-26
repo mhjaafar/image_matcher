@@ -127,3 +127,10 @@ Tested in the dummy command.
 
 Next to do:
 1) Draft a model for the queueing the images for facial recognition.
+
+====================================================
+2017-12-27 (Wed)
+1) Tested with a mock INI file for the plugin.
+
+Next TODO: Need to test reading the INI file using the class ImageMatcherWidgetModel,
+and display the configured parameters first in the Log Window.

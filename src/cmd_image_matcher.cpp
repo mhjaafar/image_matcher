@@ -179,54 +179,54 @@ MCmdImageMatcherDummy::MCmdImageMatcherDummy(MCommandMgrIF* pCmdMgr) : MImgProcC
 
 bool MCmdImageMatcherDummy::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
 
-    //MIniFile* pPluginSettings = new MIniFile(pWs, QCoreApplication::applicationDirPath() + "/" + ImgMatcher::IniFileName);
-    //pPluginSettings->setItem("Plugin", QString("Image Matcher"), true);
-    //pPluginSettings->removeItem("Dummy");
+    MIniFile* pPluginSettings = new MIniFile(pWs, QCoreApplication::applicationDirPath() + "/" + ImgMatcher::IniFileName);
+    pPluginSettings->setItem("Plugin", QString("Image Matcher"), true);
+    pPluginSettings->removeItem("Dummy");
 
-    QString pathToXmlFile = QCoreApplication::applicationDirPath() + "/" + ImgMatcher::XmlFileName;
-    QString pathToXmlFileOutput = QCoreApplication::applicationDirPath() + "/" + ImgMatcher::XmlFileOutputName;
-    //pWs->logWndIF()->addMsg("Path to Xml file: " + pathToXmlFile);
-    QFile inputFile(pathToXmlFile);
-    QFile outputFile(pathToXmlFileOutput);
+    //QString pathToXmlFile = QCoreApplication::applicationDirPath() + "/" + ImgMatcher::XmlFileName;
+    //QString pathToXmlFileOutput = QCoreApplication::applicationDirPath() + "/" + ImgMatcher::XmlFileOutputName;
+    ////pWs->logWndIF()->addMsg("Path to Xml file: " + pathToXmlFile);
+    //QFile inputFile(pathToXmlFile);
+    //QFile outputFile(pathToXmlFileOutput);
 
-    if (!inputFile.exists()){
-        pWs->logWndIF()->addMsg(ImgMatcher::XmlFileName + " does NOT exist.");
-        return false;
-    }
+    //if (!inputFile.exists()){
+    //    pWs->logWndIF()->addMsg(ImgMatcher::XmlFileName + " does NOT exist.");
+    //    return false;
+    //}
 
-    if (inputFile.open(QIODevice::ReadOnly)){
-        pWs->logWndIF()->addMsg("Input file CAN be opened.");
-    }
-    else{
-        pWs->logWndIF()->addMsg("Input file CANNOT be opened.");
-        return false;
-    }
+    //if (inputFile.open(QIODevice::ReadOnly)){
+    //    pWs->logWndIF()->addMsg("Input file CAN be opened.");
+    //}
+    //else{
+    //    pWs->logWndIF()->addMsg("Input file CANNOT be opened.");
+    //    return false;
+    //}
 
-    if (!outputFile.open(QIODevice::WriteOnly))
-    {
-        pWs->logWndIF()->addMsg("Output file CANNOT be opened.");
-        return false;
-    }
+    //if (!outputFile.open(QIODevice::WriteOnly))
+    //{
+    //    pWs->logWndIF()->addMsg("Output file CANNOT be opened.");
+    //    return false;
+    //}
 
-    QXmlStreamReader reader(&inputFile);
-    QXmlStreamWriter writer(&outputFile);
+    //QXmlStreamReader reader(&inputFile);
+    //QXmlStreamWriter writer(&outputFile);
 
-    while (!reader.atEnd()){
-        reader.readNext();
+    //while (!reader.atEnd()){
+    //    reader.readNext();
 
-        if (reader.hasError()){
-            pWs->logWndIF()->addMsg("Reader error at: " + QString::number(reader.lineNumber()) + ", " + QString::number(reader.columnNumber()));
-        }
-        else{
-            writer.writeCurrentToken(reader);
-        }
-    }
+    //    if (reader.hasError()){
+    //        pWs->logWndIF()->addMsg("Reader error at: " + QString::number(reader.lineNumber()) + ", " + QString::number(reader.columnNumber()));
+    //    }
+    //    else{
+    //        writer.writeCurrentToken(reader);
+    //    }
+    //}
 
-    if (reader.hasError() == false){
-        pWs->logWndIF()->addMsg("reader has 0 error.");
-    }
-    else
-        pWs->logWndIF()->addMsg("reader HAS error.");
+    //if (reader.hasError() == false){
+    //    pWs->logWndIF()->addMsg("reader has 0 error.");
+    //}
+    //else
+    //    pWs->logWndIF()->addMsg("reader HAS error.");
 
     return true;
 } // END: bool MCmdImageMatcherDummy::execute()
