@@ -177,15 +177,16 @@ MCmdImageMatcherPrintCurrentPickedTask::MCmdImageMatcherPrintCurrentPickedTask(M
 }
 
 bool MCmdImageMatcherPrintCurrentPickedTask::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
-    MIniFile* pPluginSettings = new MIniFile(pWs, QCoreApplication::applicationDirPath() + "/" + ImgMatcher::IniFileName);
+    int pickedTask = 0;
+    pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + ImgMatcher::CurrentPickedTask, pickedTask, 0);
+
     int sampleCount = 0;
     int targetCount = 0;
-    int pickedTask = gbl_pImageMatcherToolBoxWidget->comboBox_savedTasks->currentIndex();
     std::string currentTaskType = pickedTask == 0 ? ImgMatcher::FanartPurger : ImgMatcher::FacialRecognition;
     std::string pathToSampleCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/" + ImgMatcher::SampleCount;
     std::string pathToTargetCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/" + ImgMatcher::TargetCount;
-    pPluginSettings->getItem(pathToSampleCount, sampleCount, 0);
-    pPluginSettings->getItem(pathToTargetCount, targetCount, 0);
+    pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + pathToSampleCount, sampleCount, 0);
+    pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + pathToTargetCount, targetCount, 0);
 
     if (pickedTask == 0){
         pWs->logWndIF()->addMsg("Fanart Purger: ");
@@ -195,6 +196,7 @@ bool MCmdImageMatcherPrintCurrentPickedTask::execute(MWorkspaceIF* pWs, MParamet
     }
 
     if (sampleCount > 0){
+        std::string pathPrefix = ImgMatcher::PluginName + "/" + ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/";
         for (int i = 0; i < sampleCount; i++){
             std::string zeros = "00";
             if (i >= 10 && i < 100) {
@@ -206,16 +208,16 @@ bool MCmdImageMatcherPrintCurrentPickedTask::execute(MWorkspaceIF* pWs, MParamet
             std::string currentSampleIndex = std::to_string(i + 1);
             std::string pathToCurrentSample = "";
             std::string currentSampleName = "Sample_" + zeros + currentSampleIndex;
-            //pPluginSettings->getItem(ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ImgMatcher::TaskSamples + "/" + currentSampleName, pathToCurrentSample, "");
+            pWs->settingsIF()->getItem(pathPrefix + currentSampleName, pathToCurrentSample, "");
             QString msg = QString::fromStdString(currentSampleName + ": " + pathToCurrentSample);
             pWs->logWndIF()->addMsg(msg);
         }
     }
     else{
         pWs->logWndIF()->addMsg("No sample has been set!");
-        pPluginSettings->setItem(pathToSampleCount, 2, true);
     }
     if (targetCount > 0){
+        std::string pathPrefix = ImgMatcher::PluginName + "/" + ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/";
         for (int i = 0; i < targetCount; i++){
             std::string zeros = "00";
             if (i >= 10 && i < 100) {
@@ -227,14 +229,13 @@ bool MCmdImageMatcherPrintCurrentPickedTask::execute(MWorkspaceIF* pWs, MParamet
             std::string currentTargetIndex = std::to_string(i + 1);
             std::string pathToCurrentTarget = "";
             std::string currentTargetName = "Target_" + zeros + currentTargetIndex;
-            //pPluginSettings->getItem(ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ImgMatcher::TaskSamples + "/" + currentTargetName, pathToCurrentTarget, "");
+            pWs->settingsIF()->getItem(pathPrefix + currentTargetName, pathToCurrentTarget, "");
             QString msg = QString::fromStdString(currentTargetName + ": " + pathToCurrentTarget);
             pWs->logWndIF()->addMsg(msg);
         }
     }
     else{
         pWs->logWndIF()->addMsg("No target has been set!");
-        pPluginSettings->setItem(pathToTargetCount, 2, true);
     }
 
     return true;

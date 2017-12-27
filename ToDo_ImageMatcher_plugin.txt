@@ -134,3 +134,13 @@ Next to do:
 
 Next TODO: Need to test reading the INI file using the class ImageMatcherWidgetModel,
 and display the configured parameters first in the Log Window.
+
+====================================================
+2017-12-28 (Thu)
+
+1) Decided to drop the plan using custom INI file. Using MILAN's own config.ini instead.
+
+Next TODO:
+- Setting sample files and target paths.
+- Remove items (choose by means of a list box).
+

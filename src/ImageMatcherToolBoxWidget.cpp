@@ -96,14 +96,18 @@ void ImageMatcherToolBoxWidget::iniFileDataExchange(bool bDirection){
 
     if (bDirection){
         //pif->setItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, tbManipulation->currentIndex());
+        pif->setItem(PluginName + "/" + ImgMatcher::CurrentPickedTask, comboBox_savedTasks->currentIndex());
         pif->flush();
     } // END: if (bDirection)
     else{
-        //int m;
+        int m;
         //double d;
         //bool b;
 
         //pif->getItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, m, 0);
         //tbManipulation->setCurrentIndex(m);
+
+        pif->getItem(PluginName + "/" + ImgMatcher::CurrentPickedTask, m, 0);
+        comboBox_savedTasks->setCurrentIndex(m);
     } // END: else
 } // END: void ImageMatcherToolBoxWidget::iniFileDataExchange(bool bDirection)

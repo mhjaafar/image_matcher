@@ -62,6 +62,7 @@ namespace ImgMatcher{
     const std::string TargetCount = "TargetCount";
     const std::string SampleCount = "SampleCount";
     const std::string MatchingParameters = "MatchingParameters";
+    const std::string CurrentPickedTask = "CurrentPickedTask";
 
     const QString CmdToolBox("ImageMatcherToolBox");
     const QString CmdDummy("ImageMatcherDummy");

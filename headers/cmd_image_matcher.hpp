@@ -83,4 +83,10 @@ class MCmdImageMatcherInitDocViews : public MImgProcCmdCv {
         virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
 };
 
+class MCmdImageMatcherPrintCurrentPickedTask : public MImgProcCmdCv {
+    public:
+        MCmdImageMatcherPrintCurrentPickedTask(MCommandMgrIF* pCmdMgr);
+        virtual bool execute(MWorkspaceIF* pWs, MParameterMap* pParamMap);
+};
+
 #endif
