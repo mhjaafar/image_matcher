@@ -55,6 +55,8 @@ ImageMatcherToolBoxWidget::ImageMatcherToolBoxWidget(MWorkspaceIF* pWs) : MToolB
     connect(btnDummy, SIGNAL(clicked()), this, SLOT(onBtnDummy()));
     connect(btnRestoreImg, SIGNAL(clicked()), this, SLOT(onBtnRestoreImage()));
     connect(btnInitViewers, SIGNAL(clicked()), this, SLOT(onBtnInitViewers()));
+
+    connect(comboBox_savedTasks, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxSavedTasksCurrentIndexChanged()));
 }// END: ImageMatcherWidget::ImageMatcherWidget(MWorkspaceIF* pWs)
 
 ImageMatcherToolBoxWidget::~ImageMatcherToolBoxWidget(void){
@@ -80,6 +82,12 @@ void ImageMatcherToolBoxWidget::onBtnRestoreImage(){
 void ImageMatcherToolBoxWidget::onBtnInitViewers(){
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdInitDocViews);
+    QApplication::restoreOverrideCursor();
+}
+
+void ImageMatcherToolBoxWidget::onComboBoxSavedTasksCurrentIndexChanged(){
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    m_ws.cmdMgrIF()->executeCommand(ImgMatcher::CmdPrintCurrentPickedTask);
     QApplication::restoreOverrideCursor();
 }
 

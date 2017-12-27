@@ -69,6 +69,9 @@ class ImageMatcherToolBoxWidget : public MToolBoxWidget, public Ui::ImageMatcher
         void onBtnDummy();
         void onBtnInitViewers();
 
+        // Reaction to combo box(es):
+        void onComboBoxSavedTasksCurrentIndexChanged();
+
         void onSettingsChanged();
 
     private:

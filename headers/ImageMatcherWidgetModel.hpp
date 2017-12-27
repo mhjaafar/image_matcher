@@ -39,7 +39,11 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 #include <milan_core/utils/inifile.h>
 #include <QStandardItemModel>
 #include <QStandardItem>
+// #include "ui_ImageMatcherWidget.h" // <= corresponding to the UI file ImageMatcherWidget.ui
 
+/**
+ * This class is to be used for a widget that will be displayed in the main area.
+ */
 class ImageMatcherWidgetModel{
     public:
         /**

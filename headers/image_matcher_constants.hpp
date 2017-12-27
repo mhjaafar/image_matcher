@@ -54,9 +54,18 @@ namespace ImgMatcher{
     const std::string PathToImgTarget = "PathImgTarget";
     const std::string SurfFeatureDetector = "SurfFeatureDetector";
     const std::string SurfFeatureOctaves = "Octaves";
+    const std::string PluginTasks = "Tasks";
+    const std::string FanartPurger = "FanartPurger";
+    const std::string FacialRecognition = "FacialRecognition";
+    const std::string TaskSamples = "Samples";
+    const std::string TaskTargets = "Targets";
+    const std::string TargetCount = "TargetCount";
+    const std::string SampleCount = "SampleCount";
+    const std::string MatchingParameters = "MatchingParameters";
 
     const QString CmdToolBox("ImageMatcherToolBox");
     const QString CmdDummy("ImageMatcherDummy");
+    const QString CmdPrintCurrentPickedTask("ImageMatcherPrintCurrentPickedTask");
     const QString CmdRestorePreviousImage("ImageMatcherRestorePreviousImage");
     const QString CmdInitDocViews("ImageMatcherInitDocViews");
 

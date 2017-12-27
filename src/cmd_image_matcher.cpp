@@ -165,6 +165,81 @@ bool MCmdImageMatcherRestorePreviousImage::execute(MWorkspaceIF* pWs, MParameter
     return true;
 }// END: bool MCmdImageMatcherRestorePreviousImage::execute()
 
+MCmdImageMatcherPrintCurrentPickedTask::MCmdImageMatcherPrintCurrentPickedTask(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
+    m_menu.push_back(tr("&Plugins"));
+    m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
+    m_menu.push_back(tr("Print currently picked task"));
+
+    m_shortCut = ImgMatcher::CmdPrintCurrentPickedTask;
+    m_hasIcon = false;
+    m_needsActiveImage = false;
+    m_autoCreateNewDoc = false;
+}
+
+bool MCmdImageMatcherPrintCurrentPickedTask::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
+    MIniFile* pPluginSettings = new MIniFile(pWs, QCoreApplication::applicationDirPath() + "/" + ImgMatcher::IniFileName);
+    int sampleCount = 0;
+    int targetCount = 0;
+    int pickedTask = gbl_pImageMatcherToolBoxWidget->comboBox_savedTasks->currentIndex();
+    std::string currentTaskType = pickedTask == 0 ? ImgMatcher::FanartPurger : ImgMatcher::FacialRecognition;
+    std::string pathToSampleCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/" + ImgMatcher::SampleCount;
+    std::string pathToTargetCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/" + ImgMatcher::TargetCount;
+    pPluginSettings->getItem(pathToSampleCount, sampleCount, 0);
+    pPluginSettings->getItem(pathToTargetCount, targetCount, 0);
+
+    if (pickedTask == 0){
+        pWs->logWndIF()->addMsg("Fanart Purger: ");
+    }
+    else{
+        pWs->logWndIF()->addMsg("Facial Recognition: ");
+    }
+
+    if (sampleCount > 0){
+        for (int i = 0; i < sampleCount; i++){
+            std::string zeros = "00";
+            if (i >= 10 && i < 100) {
+                zeros = "0";
+            }
+            else if (i >= 100) {
+                zeros.clear();
+            }
+            std::string currentSampleIndex = std::to_string(i + 1);
+            std::string pathToCurrentSample = "";
+            std::string currentSampleName = "Sample_" + zeros + currentSampleIndex;
+            //pPluginSettings->getItem(ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ImgMatcher::TaskSamples + "/" + currentSampleName, pathToCurrentSample, "");
+            QString msg = QString::fromStdString(currentSampleName + ": " + pathToCurrentSample);
+            pWs->logWndIF()->addMsg(msg);
+        }
+    }
+    else{
+        pWs->logWndIF()->addMsg("No sample has been set!");
+        pPluginSettings->setItem(pathToSampleCount, 2, true);
+    }
+    if (targetCount > 0){
+        for (int i = 0; i < targetCount; i++){
+            std::string zeros = "00";
+            if (i >= 10 && i < 100) {
+                zeros = "0";
+            }
+            else if (i >= 100) {
+                zeros.clear();
+            }
+            std::string currentTargetIndex = std::to_string(i + 1);
+            std::string pathToCurrentTarget = "";
+            std::string currentTargetName = "Target_" + zeros + currentTargetIndex;
+            //pPluginSettings->getItem(ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ImgMatcher::TaskSamples + "/" + currentTargetName, pathToCurrentTarget, "");
+            QString msg = QString::fromStdString(currentTargetName + ": " + pathToCurrentTarget);
+            pWs->logWndIF()->addMsg(msg);
+        }
+    }
+    else{
+        pWs->logWndIF()->addMsg("No target has been set!");
+        pPluginSettings->setItem(pathToTargetCount, 2, true);
+    }
+
+    return true;
+}
+
 MCmdImageMatcherDummy::MCmdImageMatcherDummy(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
     m_menu.push_back(tr("&Plugins"));
     m_menu.push_back(tr(ImgMatcher::PluginNameInCommand.c_str()));
@@ -315,6 +390,8 @@ MCommand* MImageMatcherCommands::getCommand(MCommandMgrIF* pCmdMgr, QString& com
         return new MCmdImageMatcherRestorePreviousImage(pCmdMgr);
     if (commandName == ImgMatcher::CmdInitDocViews)
         return new MCmdImageMatcherInitDocViews(pCmdMgr);
+    if (commandName == ImgMatcher::CmdPrintCurrentPickedTask)
+        return new MCmdImageMatcherPrintCurrentPickedTask(pCmdMgr);
     return 0;
 }
 
@@ -326,6 +403,7 @@ QStringList MImageMatcherCommands::commands() const{
     return QStringList()
         << ImgMatcher::CmdToolBox
         << ImgMatcher::CmdDummy
+        << ImgMatcher::CmdPrintCurrentPickedTask
         << ImgMatcher::CmdRestorePreviousImage
         << ImgMatcher::CmdInitDocViews;
 }

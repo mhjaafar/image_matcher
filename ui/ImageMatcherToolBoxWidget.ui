@@ -38,7 +38,7 @@
       <string>General setup parameters.</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabGeneralSetup">
       <attribute name="title">
@@ -50,6 +50,27 @@
          <property name="text">
           <string>Init. viewers</string>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Saved Tasks:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_savedTasks">
+         <item>
+          <property name="text">
+           <string>Fanart Purger</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Facial Recognition</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -67,31 +88,16 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_facialRecognition">
-      <attribute name="title">
-       <string>Facial Recognition</string>
-      </attribute>
-     </widget>
      <widget class="QWidget" name="tab_mangaFanartPurger">
       <attribute name="title">
        <string>Manga Fanart Purger</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_savedTasks_fanartPurger">
-           <property name="text">
-            <string>Saved Tasks:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_savedTasks_fanartPurger"/>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      <layout class="QVBoxLayout" name="verticalLayout_4"/>
+     </widget>
+     <widget class="QWidget" name="tab_facialRecognition">
+      <attribute name="title">
+       <string>Facial Recognition</string>
+      </attribute>
      </widget>
     </widget>
    </item>
