@@ -34,12 +34,11 @@ Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Prog
 schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA.
 */
 #include <cmath>
-#include <math.h>
 #include <vector>
 #include <list>
 #include <algorithm>
 #include <iomanip>
-#include <stdio.h>
+#include <cstdio>
 
 #ifdef __GNU__
 #include <fcntl.h>
@@ -76,7 +75,7 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 #include "headers/ImageMatcherToolBoxWidget.hpp"
 #include <milan_core/utils/inifile.h> // Testing the usage of MIniFile in the Dummy command.
 
-ImageMatcherToolBoxWidget* gbl_pImageMatcherToolBoxWidget = 0;
+ImageMatcherToolBoxWidget* gbl_pImageMatcherToolBoxWidget = nullptr;
 
 MCmdImageMatcherShowToolBox::MCmdImageMatcherShowToolBox(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
     m_menu.push_back(tr("&Plugins"));
@@ -320,14 +319,14 @@ MCmdImageMatcherInitDocViews::MCmdImageMatcherInitDocViews(MCommandMgrIF* pCmdMg
 
 bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
 
-    MImageDocCvIF* pImgDocSampleCurrent = NULL;
-    MImageDocCvIF* pImgDocSampleNext = NULL;
-    MImageDocCvIF* pImgDocTargetCurrent = NULL;
-    MImageDocCvIF* pImgDocTargetNext = NULL;
+    MImageDocCvIF* pImgDocSampleCurrent = nullptr;
+    MImageDocCvIF* pImgDocSampleNext = nullptr;
+    MImageDocCvIF* pImgDocTargetCurrent = nullptr;
+    MImageDocCvIF* pImgDocTargetNext = nullptr;
 
     // Current sample image
     pImgDocSampleCurrent = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgSampleCurrent);
-    if (pImgDocSampleCurrent == NULL){
+    if (pImgDocSampleCurrent == nullptr){
         pImgDocSampleCurrent = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocSampleCurrent->setObjectName(ImgMatcher::DocNameImgSampleCurrent);
         pImgDocSampleCurrent->docName(ImgMatcher::DocNameImgSampleCurrent);
@@ -340,7 +339,7 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
 
     // Next sample image
     pImgDocSampleNext = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgSampleNext);
-    if (pImgDocSampleNext == NULL){
+    if (pImgDocSampleNext == nullptr){
         pImgDocSampleNext = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocSampleNext->setObjectName(ImgMatcher::DocNameImgSampleNext);
         pImgDocSampleNext->docName(ImgMatcher::DocNameImgSampleNext);
@@ -353,7 +352,7 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
 
     // Current target image
     pImgDocTargetCurrent = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgTargetCurrent);
-    if (pImgDocTargetCurrent == NULL){
+    if (pImgDocTargetCurrent == nullptr){
         pImgDocTargetCurrent = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocTargetCurrent->setObjectName(ImgMatcher::DocNameImgTargetCurrent);
         pImgDocTargetCurrent->docName(ImgMatcher::DocNameImgTargetCurrent);
@@ -366,7 +365,7 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
 
     // Next target image
     pImgDocTargetNext = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgTargetNext);
-    if (pImgDocTargetNext == NULL){
+    if (pImgDocTargetNext == nullptr){
         pImgDocTargetNext = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocTargetNext->setObjectName(ImgMatcher::DocNameImgTargetNext);
         pImgDocTargetNext->docName(ImgMatcher::DocNameImgTargetNext);
@@ -393,7 +392,7 @@ MCommand* MImageMatcherCommands::getCommand(MCommandMgrIF* pCmdMgr, QString& com
         return new MCmdImageMatcherInitDocViews(pCmdMgr);
     if (commandName == ImgMatcher::CmdPrintCurrentPickedTask)
         return new MCmdImageMatcherPrintCurrentPickedTask(pCmdMgr);
-    return 0;
+    return nullptr;
 }
 
 /*
