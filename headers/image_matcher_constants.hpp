@@ -75,9 +75,6 @@ namespace ImgMatcher{
     const QString DocNameImgTargetCurrent("Current Target Image");
     const QString DocNameImgTargetNext("Next Target Image");
 
-    const QString IniFileName("plugin_ImageMatcher.ini");
-    const QString XmlFileName("plugin_ImageMatcher.xml");
-    const QString XmlFileOutputName("plugin_ImageMatcher_Output.xml");
 }// END: namespace ImgMatcher
 
 #endif

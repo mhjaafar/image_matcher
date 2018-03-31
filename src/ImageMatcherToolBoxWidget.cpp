@@ -52,15 +52,19 @@ ImageMatcherToolBoxWidget::ImageMatcherToolBoxWidget(MWorkspaceIF* pWs) : MToolB
 
     iniFileDataExchange(false);
 
+    connect(sliderConfidenceLevel, SIGNAL(valueChanged(int)), this, SLOT(onSettingsChanged()));
+    connect(sliderRatioNN, SIGNAL(valueChanged(int)), this, SLOT(onSettingsChanged()));
+    connect(checkBoxRefineFMatrix, SIGNAL(stateChanged(int)), this, SLOT(onSettingsChanged()));
+    connect(sliderMinDistToEpipolar, SIGNAL(valueChanged(int)), this, SLOT(onSettingsChanged()));
+    connect(checkBoxResizeImages, SIGNAL(stateChanged(int)), this, SLOT(onSettingsChanged()));
+    connect(spinBoxImgResizePercentage, SIGNAL(valueChanged(int)), this, SLOT(onSettingsChanged()));
+
     connect(btnDummy, SIGNAL(clicked()), this, SLOT(onBtnDummy()));
     connect(btnRestoreImg, SIGNAL(clicked()), this, SLOT(onBtnRestoreImage()));
     connect(btnInitViewers, SIGNAL(clicked()), this, SLOT(onBtnInitViewers()));
 
-    connect(comboBox_savedTasks, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxSavedTasksCurrentIndexChanged()));
-}// END: ImageMatcherWidget::ImageMatcherWidget(MWorkspaceIF* pWs)
 
-ImageMatcherToolBoxWidget::~ImageMatcherToolBoxWidget(void){
-    // Empty destructors
+    connect(comboBox_savedTasks, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxSavedTasksCurrentIndexChanged()));
 }
 
 void ImageMatcherToolBoxWidget::onSettingsChanged(){
@@ -97,17 +101,75 @@ void ImageMatcherToolBoxWidget::iniFileDataExchange(bool bDirection){
     if (bDirection){
         //pif->setItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, tbManipulation->currentIndex());
         pif->setItem(PluginName + "/" + ImgMatcher::CurrentPickedTask, comboBox_savedTasks->currentIndex());
+        pif->setItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger +"/" + RatioNN1to2, double(sliderRatioNN->value()) / 100.0);
+        pif->setItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ConfidenceLevel, double(sliderConfidenceLevel->value()));
+        pif->setItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + RefineFMatrixEnabled, checkBoxRefineFMatrix->isChecked());
+        pif->setItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + MinDistanceToEpipolar, double(sliderMinDistToEpipolar->value() / 10.0));
+        pif->setItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ResizeInputImageEnabled, checkBoxResizeImages->isChecked());
+        pif->setItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ResizeInputImagePercentage, spinBoxImgResizePercentage->value());
         pif->flush();
     } // END: if (bDirection)
     else{
         int m;
-        //double d;
-        //bool b;
+        double d;
+        bool b;
 
         //pif->getItem(PluginName + "/" + QToolBoxes + "/" + PixelManipulation, m, 0);
         //tbManipulation->setCurrentIndex(m);
+
+        pif->getItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ConfidenceLevel, d, 90.0);
+        spinBoxConfidenceLevel->setValue(d);
+        sliderConfidenceLevel->setValue(int(d));
+
+        pif->getItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + RatioNN1to2, d, 0.65);
+        spinBoxRatioNN->setValue(d);
+        sliderRatioNN->setValue(int(d*100.0));
+
+        pif->getItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + RefineFMatrixEnabled, b, true);
+        checkBoxRefineFMatrix->setChecked(b);
+
+        pif->getItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + MinDistanceToEpipolar, d, 3.0);
+        spinBoxMinDistToEpipolar->setValue(d);
+        sliderMinDistToEpipolar->setValue(int(d*10.0));
+
+        pif->getItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ResizeInputImageEnabled, b, false);
+        checkBoxResizeImages->setChecked(b);
+
+        pif->getItem(PluginName + "/" + ImgMatcher::PluginTasks + "/" + ImgMatcher::FanartPurger + "/" + ResizeInputImagePercentage, m, 75);
+        spinBoxImgResizePercentage->setValue(m);
+        sliderImgResizePercentage->setValue(m);
 
         pif->getItem(PluginName + "/" + ImgMatcher::CurrentPickedTask, m, 0);
         comboBox_savedTasks->setCurrentIndex(m);
     } // END: else
 } // END: void ImageMatcherToolBoxWidget::iniFileDataExchange(bool bDirection)
+
+void ImageMatcherToolBoxWidget::on_sliderConfidenceLevel_valueChanged(){
+    double dValueSpinBox = double(sliderConfidenceLevel->value());
+    spinBoxConfidenceLevel->setValue(dValueSpinBox);
+}
+
+void ImageMatcherToolBoxWidget::on_spinBoxConfidenceLevel_valueChanged(double){
+    int iValueSlider = int(spinBoxConfidenceLevel->value());
+    sliderConfidenceLevel->setValue(iValueSlider);
+}
+
+void ImageMatcherToolBoxWidget::on_sliderRatioNN_valueChanged(){
+    double dValueSpinBox = double(sliderRatioNN->value());
+    spinBoxRatioNN->setValue(dValueSpinBox / 100.0);
+}
+
+void ImageMatcherToolBoxWidget::on_spinBoxRatioNN_valueChanged(double){
+    int iSliderValue = int(spinBoxRatioNN->value() * 100);
+    sliderRatioNN->setValue(iSliderValue);
+}
+
+void ImageMatcherToolBoxWidget::on_sliderMinDistToEpipolar_valueChanged(){
+    double dValue = double(sliderMinDistToEpipolar->value());
+    spinBoxMinDistToEpipolar->setValue(dValue / 10.0);
+}
+
+void ImageMatcherToolBoxWidget::on_spinBoxMinDistToEpipolar_valueChanged(double){
+    int iValue = int(spinBoxMinDistToEpipolar->value()*10.0);
+    sliderMinDistToEpipolar->setValue(iValue);
+}

@@ -33,10 +33,10 @@ ZWECK. Details finden Sie in der GNU General Public License.
 Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht,
 schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA.
 */
-#include <cmath>
+//#include <cmath>
 #include <vector>
 #include <list>
-#include <algorithm>
+//#include <algorithm>
 #include <iomanip>
 #include <cstdio>
 
@@ -50,30 +50,26 @@ schreiben Sie an die Free Software Foundation, Inc., 51 Franklin St, Fifth Floor
 #pragma warning(disable : 4003 4996) // Avoiding warnings from e.g. PCL and security warnings for fopen
 #endif
 
-#include <QApplication>
-#include <QAction>
 #include <QString>
 #include <QObject>
-#include <QDialog>
-#include <QFileDialog>
-#include <QPushButton>
-#include <QCoreApplication>
-#include <QMessageBox>
+//#include <QDialog>
+//#include <QFileDialog>
+//#include <QPushButton>
+//#include <QCoreApplication>
+//#include <QMessageBox>
 #include <QtGui>
-#include <QTime>
-#include <QFileDialog>
+//#include <QTime>
+//#include <QFileDialog>
 #include <QtCore>
-#include <QDesktopWidget>
-#include <QRect>
-#include <QXmlSimpleReader>
-#include <QXmlInputSource>
+//#include <QDesktopWidget>
+//#include <QRect>
 #include <opencv2/opencv.hpp>
 #include "headers/cmd_image_matcher.hpp"
 #include "headers/robustMatcher.hpp"
-#include "headers/matcher.hpp"
+//#include "headers/matcher.hpp"
 #include "headers/image_matcher_constants.hpp"
 #include "headers/ImageMatcherToolBoxWidget.hpp"
-#include <milan_core/utils/inifile.h> // Testing the usage of MIniFile in the Dummy command.
+//#include <milan_core/utils/inifile.h> // Testing the usage of MIniFile in the Dummy command.
 
 ImageMatcherToolBoxWidget* gbl_pImageMatcherToolBoxWidget = nullptr;
 
@@ -176,66 +172,68 @@ MCmdImageMatcherPrintCurrentPickedTask::MCmdImageMatcherPrintCurrentPickedTask(M
 }
 
 bool MCmdImageMatcherPrintCurrentPickedTask::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
-    int pickedTask = 0;
-    pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + ImgMatcher::CurrentPickedTask, pickedTask, 0);
+    //int pickedTask = 0;
+    //pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + ImgMatcher::CurrentPickedTask, pickedTask, 0);
 
-    int sampleCount = 0;
-    int targetCount = 0;
-    std::string currentTaskType = pickedTask == 0 ? ImgMatcher::FanartPurger : ImgMatcher::FacialRecognition;
-    std::string pathToSampleCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/" + ImgMatcher::SampleCount;
-    std::string pathToTargetCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/" + ImgMatcher::TargetCount;
-    pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + pathToSampleCount, sampleCount, 0);
-    pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + pathToTargetCount, targetCount, 0);
+    //int sampleCount = 0;
+    //int targetCount = 0;
+    //std::string currentTaskType = pickedTask == 0 ? ImgMatcher::FanartPurger : ImgMatcher::FacialRecognition;
+    //std::string pathToSampleCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/" + ImgMatcher::SampleCount;
+    //std::string pathToTargetCount = ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/" + ImgMatcher::TargetCount;
+    //pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + pathToSampleCount, sampleCount, 0);
+    //pWs->settingsIF()->getItem(ImgMatcher::PluginName + "/" + pathToTargetCount, targetCount, 0);
 
-    if (pickedTask == 0){
-        pWs->logWndIF()->addMsg("Fanart Purger: ");
-    }
-    else{
-        pWs->logWndIF()->addMsg("Facial Recognition: ");
-    }
+    //if (pickedTask == 0){
+    //    pWs->logWndIF()->addMsg("Fanart Purger: ");
+    //}
+    //else{
+    //    pWs->logWndIF()->addMsg("Facial Recognition: ");
+    //}
 
-    if (sampleCount > 0){
-        std::string pathPrefix = ImgMatcher::PluginName + "/" + ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/";
-        for (int i = 0; i < sampleCount; i++){
-            std::string zeros = "00";
-            if (i >= 10 && i < 100) {
-                zeros = "0";
-            }
-            else if (i >= 100) {
-                zeros.clear();
-            }
-            std::string currentSampleIndex = std::to_string(i + 1);
-            std::string pathToCurrentSample = "";
-            std::string currentSampleName = "Sample_" + zeros + currentSampleIndex;
-            pWs->settingsIF()->getItem(pathPrefix + currentSampleName, pathToCurrentSample, "");
-            QString msg = QString::fromStdString(currentSampleName + ": " + pathToCurrentSample);
-            pWs->logWndIF()->addMsg(msg);
-        }
-    }
-    else{
-        pWs->logWndIF()->addMsg("No sample has been set!");
-    }
-    if (targetCount > 0){
-        std::string pathPrefix = ImgMatcher::PluginName + "/" + ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/";
-        for (int i = 0; i < targetCount; i++){
-            std::string zeros = "00";
-            if (i >= 10 && i < 100) {
-                zeros = "0";
-            }
-            else if (i >= 100) {
-                zeros.clear();
-            }
-            std::string currentTargetIndex = std::to_string(i + 1);
-            std::string pathToCurrentTarget = "";
-            std::string currentTargetName = "Target_" + zeros + currentTargetIndex;
-            pWs->settingsIF()->getItem(pathPrefix + currentTargetName, pathToCurrentTarget, "");
-            QString msg = QString::fromStdString(currentTargetName + ": " + pathToCurrentTarget);
-            pWs->logWndIF()->addMsg(msg);
-        }
-    }
-    else{
-        pWs->logWndIF()->addMsg("No target has been set!");
-    }
+    //if (sampleCount > 0){
+    //    std::string pathPrefix = ImgMatcher::PluginName + "/" + ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskSamples + "/";
+    //    for (int i = 0; i < sampleCount; i++){
+    //        std::string zeros = "00";
+    //        if (i >= 10 && i < 100) {
+    //            zeros = "0";
+    //        }
+    //        else if (i >= 100) {
+    //            zeros.clear();
+    //        }
+    //        std::string currentSampleIndex = std::to_string(i + 1);
+    //        std::string pathToCurrentSample = "";
+    //        std::string currentSampleName = "Sample_" + zeros + currentSampleIndex;
+    //        pWs->settingsIF()->getItem(pathPrefix + currentSampleName, pathToCurrentSample, "");
+    //        QString msg = QString::fromStdString(currentSampleName + ": " + pathToCurrentSample);
+    //        pWs->logWndIF()->addMsg(msg);
+    //    }
+    //}
+    //else{
+    //    pWs->logWndIF()->addMsg("No sample has been set!");
+    //}
+    //if (targetCount > 0){
+    //    std::string pathPrefix = ImgMatcher::PluginName + "/" + ImgMatcher::PluginTasks + "/" + currentTaskType + "/" + ImgMatcher::TaskTargets + "/";
+    //    for (int i = 0; i < targetCount; i++){
+    //        std::string zeros = "00";
+    //        if (i >= 10 && i < 100) {
+    //            zeros = "0";
+    //        }
+    //        else if (i >= 100) {
+    //            zeros.clear();
+    //        }
+    //        std::string currentTargetIndex = std::to_string(i + 1);
+    //        std::string pathToCurrentTarget = "";
+    //        std::string currentTargetName = "Target_" + zeros + currentTargetIndex;
+    //        pWs->settingsIF()->getItem(pathPrefix + currentTargetName, pathToCurrentTarget, "");
+    //        QString msg = QString::fromStdString(currentTargetName + ": " + pathToCurrentTarget);
+    //        pWs->logWndIF()->addMsg(msg);
+    //    }
+    //}
+    //else{
+    //    pWs->logWndIF()->addMsg("No target has been set!");
+    //}
+
+    pWs->logWndIF()->addMsg("This command is to be removed.");
 
     return true;
 }
@@ -250,60 +248,14 @@ MCmdImageMatcherDummy::MCmdImageMatcherDummy(MCommandMgrIF* pCmdMgr) : MImgProcC
     m_icon = QIcon(":/resources/humanTransmutationCircle.ico");
     m_needsActiveImage = false;
     m_autoCreateNewDoc = false;
+
 }
 
 bool MCmdImageMatcherDummy::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
 
-    MIniFile* pPluginSettings = new MIniFile(pWs, QCoreApplication::applicationDirPath() + "/" + ImgMatcher::IniFileName);
-    pPluginSettings->setItem("Plugin", QString("Image Matcher"), true);
-    pPluginSettings->removeItem("Dummy");
+    pWs->logWndIF()->addMsg("Nothing to be done here.");
 
-    //QString pathToXmlFile = QCoreApplication::applicationDirPath() + "/" + ImgMatcher::XmlFileName;
-    //QString pathToXmlFileOutput = QCoreApplication::applicationDirPath() + "/" + ImgMatcher::XmlFileOutputName;
-    ////pWs->logWndIF()->addMsg("Path to Xml file: " + pathToXmlFile);
-    //QFile inputFile(pathToXmlFile);
-    //QFile outputFile(pathToXmlFileOutput);
-
-    //if (!inputFile.exists()){
-    //    pWs->logWndIF()->addMsg(ImgMatcher::XmlFileName + " does NOT exist.");
-    //    return false;
-    //}
-
-    //if (inputFile.open(QIODevice::ReadOnly)){
-    //    pWs->logWndIF()->addMsg("Input file CAN be opened.");
-    //}
-    //else{
-    //    pWs->logWndIF()->addMsg("Input file CANNOT be opened.");
-    //    return false;
-    //}
-
-    //if (!outputFile.open(QIODevice::WriteOnly))
-    //{
-    //    pWs->logWndIF()->addMsg("Output file CANNOT be opened.");
-    //    return false;
-    //}
-
-    //QXmlStreamReader reader(&inputFile);
-    //QXmlStreamWriter writer(&outputFile);
-
-    //while (!reader.atEnd()){
-    //    reader.readNext();
-
-    //    if (reader.hasError()){
-    //        pWs->logWndIF()->addMsg("Reader error at: " + QString::number(reader.lineNumber()) + ", " + QString::number(reader.columnNumber()));
-    //    }
-    //    else{
-    //        writer.writeCurrentToken(reader);
-    //    }
-    //}
-
-    //if (reader.hasError() == false){
-    //    pWs->logWndIF()->addMsg("reader has 0 error.");
-    //}
-    //else
-    //    pWs->logWndIF()->addMsg("reader HAS error.");
-
-    return true;
+    return false;
 } // END: bool MCmdImageMatcherDummy::execute()
 
 MCmdImageMatcherInitDocViews::MCmdImageMatcherInitDocViews(MCommandMgrIF* pCmdMgr) : MImgProcCmdCv(pCmdMgr, "", "", false){
@@ -319,13 +271,8 @@ MCmdImageMatcherInitDocViews::MCmdImageMatcherInitDocViews(MCommandMgrIF* pCmdMg
 
 bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pParamMap){
 
-    MImageDocCvIF* pImgDocSampleCurrent = nullptr;
-    MImageDocCvIF* pImgDocSampleNext = nullptr;
-    MImageDocCvIF* pImgDocTargetCurrent = nullptr;
-    MImageDocCvIF* pImgDocTargetNext = nullptr;
-
     // Current sample image
-    pImgDocSampleCurrent = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgSampleCurrent);
+    MImageDocCvIF* pImgDocSampleCurrent = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgSampleCurrent);
     if (pImgDocSampleCurrent == nullptr){
         pImgDocSampleCurrent = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocSampleCurrent->setObjectName(ImgMatcher::DocNameImgSampleCurrent);
@@ -338,7 +285,7 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
     }
 
     // Next sample image
-    pImgDocSampleNext = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgSampleNext);
+    MImageDocCvIF* pImgDocSampleNext = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgSampleNext);
     if (pImgDocSampleNext == nullptr){
         pImgDocSampleNext = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocSampleNext->setObjectName(ImgMatcher::DocNameImgSampleNext);
@@ -351,7 +298,7 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
     }
 
     // Current target image
-    pImgDocTargetCurrent = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgTargetCurrent);
+    MImageDocCvIF*  pImgDocTargetCurrent = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgTargetCurrent);
     if (pImgDocTargetCurrent == nullptr){
         pImgDocTargetCurrent = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocTargetCurrent->setObjectName(ImgMatcher::DocNameImgTargetCurrent);
@@ -364,7 +311,7 @@ bool MCmdImageMatcherInitDocViews::execute(MWorkspaceIF* pWs, MParameterMap* pPa
     }
 
     // Next target image
-    pImgDocTargetNext = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgTargetNext);
+    MImageDocCvIF* pImgDocTargetNext = (MImageDocCvIF*)pWs->docMgrIF()->docByObjName(ImgMatcher::DocNameImgTargetNext);
     if (pImgDocTargetNext == nullptr){
         pImgDocTargetNext = (MImageDocCvIF*)pWs->docMgrIF()->newDocument(MImageDocCvIF::getClassName());
         pImgDocTargetNext->setObjectName(ImgMatcher::DocNameImgTargetNext);

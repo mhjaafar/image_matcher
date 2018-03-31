@@ -58,7 +58,7 @@ class ImageMatcherToolBoxWidget : public MToolBoxWidget, public Ui::ImageMatcher
     public:
         ImageMatcherToolBoxWidget(MWorkspaceIF* pWs);
         MWorkspaceIF* m_pWs;
-        virtual ~ImageMatcherToolBoxWidget(void);
+        virtual ~ImageMatcherToolBoxWidget(void) = default;
 
     public slots:
         virtual QString title() { return tr("Image Matcher Toolbox"); }
@@ -73,6 +73,14 @@ class ImageMatcherToolBoxWidget : public MToolBoxWidget, public Ui::ImageMatcher
         void onComboBoxSavedTasksCurrentIndexChanged();
 
         void onSettingsChanged();
+
+        // Slider and combo boxes
+        void on_sliderConfidenceLevel_valueChanged();
+        void on_spinBoxConfidenceLevel_valueChanged(double);
+        void on_sliderRatioNN_valueChanged();
+        void on_spinBoxRatioNN_valueChanged(double);
+        void on_sliderMinDistToEpipolar_valueChanged();
+        void on_spinBoxMinDistToEpipolar_valueChanged(double);
 
     private:
         void iniFileDataExchange(bool bDirection);

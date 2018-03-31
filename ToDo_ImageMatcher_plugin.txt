@@ -144,3 +144,26 @@ Next TODO:
 - Setting sample files and target paths.
 - Remove items (choose by means of a list box).
 
+====================================================
+2018-03-31 (Sat)
+
+- Simple and straight. The same parameters for all operations in Fanart Purger.
+
+Suggested algorithm:
+
+for each manga
+    - select first forder
+    - queue the other folders
+    - from folder 0
+        => select files in the configured range:
+            for each file:
+                match with the first and end n-files from the other folders
+                queue the result into a table
+
+When done:
+- upon clicking any file in the result table:
+    - display the image into a window.
+
+2 tables:
+- table for source
+- table for targets / match result
